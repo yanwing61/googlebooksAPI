@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google books API</title>
+</head>
+<body>
+
+    <h1>Google books API</h1>
+
+    <div id="books"></div>
+
+    <script>
+        let key = '<GOOGLE_BOOKS_API_KEY>';
+        let url = 'https://www.googleapis.com/books/v1/volumes?q=harry+potter&key='+ key;
+
+
+        fetch(url).then(function (response) {
+
+            return response.json();
+
+        }).then(function (data) {
+
+            console.log(data);
+
+            let books = document.getElementById("books");
+
+            data.items.forEach(function(book) {
+                console.log(book.volumeInfo.title);
+
+                books.innerHTML += '<h2>'+ book.volumeInfo.title + '</h2>';
+                books.innerHTML +=  '<p>' + book.volumeInfo.authors.join(', ') + '</p>' ;
+                books.innerHTML +=  '<p>' + book.volumeInfo.description + '</p>' ;
+                books.innerHTML +=  '<a href="' + book.volumeInfo.previewLink + '">preview link</a>';
+                books.innerHTML +=  '<div><img src="' + book.volumeInfo.imageLinks.thumbnail + '"></div>';
+            });
+
+
+        }).catch(function (err){
+            console.warn('errorrr', err);
+        })
+
+
+    </script>
+</body>
+</html>
+
